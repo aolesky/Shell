@@ -1,0 +1,45 @@
+Name: Alec Olesky
+
+username: aolesky
+
+Extra Credit Claimed: None
+
+Compilation Instructions: Just call make
+
+Work Accomplished: Everything
+
+Layout:
+	
+	terminal : The loop that continously prompts for user input
+
+	linked-list: A simple string linked list
+
+	command-block : A data structure that holds a command, an input and an output
+					Generated from a linked list
+
+	handle-job : Contains functions that handle all the switching off between terminal control
+				 Includes moving processes to the background and synchronous signal handling
+
+	load-program: Used for forking and exec, also changes descriptors for any children
+	              Used by job handling functions
+
+	piping: Small set of function that can recognize piping and check to see if a command is a valid pipe
+
+	process-map: Data structure that maps process group id's to commands
+		Used for when a job completes to retrieve the original command
+		Also keeps track of the number of processes in the group, so that it doesn't notify the user until all have completed.
+
+	support-functions: String copy and comparing functions 
+
+Structure Outline:
+
+	1. Terminal takes input and creates linked list
+	2. First check to see if it is a fg or bg command
+	3. Command is checked for pipes and or background symbol
+	4. Turned into command blocks for easier handling
+	5. Makes sure it is a valid command structure
+	6. Calls the necessary job handler (piping or regular)
+	7. Job handler runs the process and transfers terminal control if it is a foreground process
+		If not a foreground process, it is added to the process map
+	6. Checks to see if any jobs have terminated or stopped and handles those
+	7. Repeat
